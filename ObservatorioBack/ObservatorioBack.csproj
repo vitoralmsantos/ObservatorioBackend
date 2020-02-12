@@ -98,6 +98,7 @@
       <DependentUpon>ObservatorioModelo.edmx</DependentUpon>
       <LastGenOutput>ObservatorioModelo.Context1.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\ObservatorioModelo.edmx.sql" />
     <Content Include="Models\ObservatorioModelo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ObservatorioModelo.edmx</DependentUpon>
@@ -113,10 +114,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ObservatorioModelo.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ObservatorioModelo.Context.tt</DependentUpon>
+    <Compile Include="Models\Acompanhamento.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Detento.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetentoExt.cs" />
+    <Compile Include="Models\Estado.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ObservatorioModelo.Context1.cs">
       <AutoGen>True</AutoGen>
@@ -132,6 +138,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ObservatorioModelo.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Processo.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Resposta.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
