@@ -4,22 +4,395 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ObservatorioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="ObservatorioModelStoreContainer" />
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="ObservatorioModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ObservatorioModelStoreContainer">
+    <EntitySet Name="Detentos" EntityType="ObservatorioModel.Store.Detentos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Acompanhamentos" EntityType="ObservatorioModel.Store.Acompanhamentos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Estados" EntityType="ObservatorioModel.Store.Estados" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Respostas" EntityType="ObservatorioModel.Store.Respostas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Processos" EntityType="ObservatorioModel.Store.Processos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Usuarios" EntityType="ObservatorioModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="EstadoResposta" Association="ObservatorioModel.Store.EstadoResposta">
+      <End Role="Estado" EntitySet="Estados" />
+      <End Role="Resposta" EntitySet="Respostas" />
+    </AssociationSet>
+    <AssociationSet Name="RespostaEstado" Association="ObservatorioModel.Store.RespostaEstado">
+      <End Role="Resposta" EntitySet="Respostas" />
+      <End Role="Estado" EntitySet="Estados" />
+    </AssociationSet>
+    <AssociationSet Name="DetentoProcesso" Association="ObservatorioModel.Store.DetentoProcesso">
+      <End Role="Detento" EntitySet="Detentos" />
+      <End Role="Processo" EntitySet="Processos" />
+    </AssociationSet>
+    <AssociationSet Name="ProcessoAcompanhamento" Association="ObservatorioModel.Store.ProcessoAcompanhamento">
+      <End Role="Processo" EntitySet="Processos" />
+      <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
+    </AssociationSet>
+    <AssociationSet Name="AcompanhamentoEstado" Association="ObservatorioModel.Store.AcompanhamentoEstado">
+      <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
+      <End Role="Estado" EntitySet="Estados" />
+    </AssociationSet>
+    <AssociationSet Name="AcompanhamentoAcompanhamento" Association="ObservatorioModel.Store.AcompanhamentoAcompanhamento">
+      <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
+      <End Role="Acompanhamento1" EntitySet="Acompanhamentos" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Detentos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Acompanhamentos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DataInicio" Type="datetime" Nullable="false" />
+    <Property Name="DataFim" Type="datetime" Nullable="false" />
+    <Property Name="Comentario" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Processo_Id" Type="int" Nullable="false" />
+    <Property Name="Estado_Id" Type="int" Nullable="false" />
+    <Property Name="AcompanhamentoOrigem_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Estados">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Espera" Type="int" Nullable="false" />
+    <Property Name="Pergunta" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Respostas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Comentario" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Estado_Id" Type="int" Nullable="false" />
+    <Property Name="EstadoDestino_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Processos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Numero" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DataInicio" Type="datetime" Nullable="false" />
+    <Property Name="Detento_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="EstadoResposta">
+    <End Role="Estado" Type="ObservatorioModel.Store.Estados" Multiplicity="1" />
+    <End Role="Resposta" Type="ObservatorioModel.Store.Respostas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Resposta">
+        <PropertyRef Name="Estado_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RespostaEstado">
+    <End Role="Resposta" Type="ObservatorioModel.Store.Respostas" Multiplicity="*" />
+    <End Role="Estado" Type="ObservatorioModel.Store.Estados" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Resposta">
+        <PropertyRef Name="EstadoDestino_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DetentoProcesso">
+    <End Role="Detento" Type="ObservatorioModel.Store.Detentos" Multiplicity="1" />
+    <End Role="Processo" Type="ObservatorioModel.Store.Processos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Detento">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Processo">
+        <PropertyRef Name="Detento_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProcessoAcompanhamento">
+    <End Role="Processo" Type="ObservatorioModel.Store.Processos" Multiplicity="1" />
+    <End Role="Acompanhamento" Type="ObservatorioModel.Store.Acompanhamentos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Processo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Acompanhamento">
+        <PropertyRef Name="Processo_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AcompanhamentoEstado">
+    <End Role="Acompanhamento" Type="ObservatorioModel.Store.Acompanhamentos" Multiplicity="*" />
+    <End Role="Estado" Type="ObservatorioModel.Store.Estados" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Acompanhamento">
+        <PropertyRef Name="Estado_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AcompanhamentoAcompanhamento">
+    <End Role="Acompanhamento" Type="ObservatorioModel.Store.Acompanhamentos" Multiplicity="1" />
+    <End Role="Acompanhamento1" Type="ObservatorioModel.Store.Acompanhamentos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Acompanhamento">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Acompanhamento1">
+        <PropertyRef Name="AcompanhamentoOrigem_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ObservatorioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="ObservatorioEntities" annotation:LazyLoadingEnabled="true" />
+        <EntityContainer Name="ObservatorioEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Detentos" EntityType="ObservatorioModel.Detento" />
+          <EntitySet Name="Acompanhamentos" EntityType="ObservatorioModel.Acompanhamento" />
+          <EntitySet Name="Estados" EntityType="ObservatorioModel.Estado" />
+          <EntitySet Name="Respostas" EntityType="ObservatorioModel.Resposta" />
+          <AssociationSet Name="EstadoResposta" Association="ObservatorioModel.EstadoResposta">
+            <End Role="Estado" EntitySet="Estados" />
+            <End Role="Resposta" EntitySet="Respostas" />
+          </AssociationSet>
+          <AssociationSet Name="RespostaEstado" Association="ObservatorioModel.RespostaEstado">
+            <End Role="Resposta" EntitySet="Respostas" />
+            <End Role="Estado" EntitySet="Estados" />
+          </AssociationSet>
+          <EntitySet Name="Processos" EntityType="ObservatorioModel.Processo" />
+          <AssociationSet Name="DetentoProcesso" Association="ObservatorioModel.DetentoProcesso">
+            <End Role="Detento" EntitySet="Detentos" />
+            <End Role="Processo" EntitySet="Processos" />
+          </AssociationSet>
+          <AssociationSet Name="ProcessoAcompanhamento" Association="ObservatorioModel.ProcessoAcompanhamento">
+            <End Role="Processo" EntitySet="Processos" />
+            <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
+          </AssociationSet>
+          <AssociationSet Name="AcompanhamentoEstado" Association="ObservatorioModel.AcompanhamentoEstado">
+            <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
+            <End Role="Estado" EntitySet="Estados" />
+          </AssociationSet>
+          <AssociationSet Name="AcompanhamentoAcompanhamento" Association="ObservatorioModel.AcompanhamentoAcompanhamento">
+            <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
+            <End Role="Acompanhamento1" EntitySet="Acompanhamentos" />
+          </AssociationSet>
+          <EntitySet Name="Usuarios" EntityType="ObservatorioModel.Usuario" />
+        </EntityContainer>
+        <EntityType Name="Detento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <NavigationProperty Name="Processos" Relationship="ObservatorioModel.DetentoProcesso" FromRole="Detento" ToRole="Processo" />
+        </EntityType>
+        <EntityType Name="Acompanhamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataInicio" Type="DateTime" Nullable="false" />
+          <Property Name="DataFim" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Processo" Relationship="ObservatorioModel.ProcessoAcompanhamento" FromRole="Acompanhamento" ToRole="Processo" />
+          <NavigationProperty Name="Estado" Relationship="ObservatorioModel.AcompanhamentoEstado" FromRole="Acompanhamento" ToRole="Estado" />
+          <Property Name="Comentario" Type="String" Nullable="false" />
+          <NavigationProperty Name="AcompanhamentoDestino" Relationship="ObservatorioModel.AcompanhamentoAcompanhamento" FromRole="Acompanhamento" ToRole="Acompanhamento1" />
+          <NavigationProperty Name="AcompanhamentoOrigem" Relationship="ObservatorioModel.AcompanhamentoAcompanhamento" FromRole="Acompanhamento1" ToRole="Acompanhamento" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Espera" Type="Int32" Nullable="false" />
+          <Property Name="Pergunta" Type="String" Nullable="false" />
+          <NavigationProperty Name="Respostas" Relationship="ObservatorioModel.EstadoResposta" FromRole="Estado" ToRole="Resposta" />
+          <NavigationProperty Name="RespostaOrigem" Relationship="ObservatorioModel.RespostaEstado" FromRole="Estado" ToRole="Resposta" />
+          <NavigationProperty Name="Acompanhamentos" Relationship="ObservatorioModel.AcompanhamentoEstado" FromRole="Estado" ToRole="Acompanhamento" />
+        </EntityType>
+        <EntityType Name="Resposta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Comentario" Type="String" Nullable="false" />
+          <NavigationProperty Name="Estado" Relationship="ObservatorioModel.EstadoResposta" FromRole="Resposta" ToRole="Estado" />
+          <NavigationProperty Name="EstadoDestino" Relationship="ObservatorioModel.RespostaEstado" FromRole="Resposta" ToRole="Estado" />
+        </EntityType>
+        <Association Name="EstadoResposta">
+          <End Type="ObservatorioModel.Estado" Role="Estado" Multiplicity="1" />
+          <End Type="ObservatorioModel.Resposta" Role="Resposta" Multiplicity="*" />
+        </Association>
+        <Association Name="RespostaEstado">
+          <End Type="ObservatorioModel.Resposta" Role="Resposta" Multiplicity="1" />
+          <End Type="ObservatorioModel.Estado" Role="Estado" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Processo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Detento" Relationship="ObservatorioModel.DetentoProcesso" FromRole="Processo" ToRole="Detento" />
+          <NavigationProperty Name="Acompanhamentos" Relationship="ObservatorioModel.ProcessoAcompanhamento" FromRole="Processo" ToRole="Acompanhamento" />
+          <Property Name="Numero" Type="String" Nullable="false" />
+          <Property Name="DataInicio" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <Association Name="DetentoProcesso">
+          <End Type="ObservatorioModel.Detento" Role="Detento" Multiplicity="1" />
+          <End Type="ObservatorioModel.Processo" Role="Processo" Multiplicity="*" />
+        </Association>
+        <Association Name="ProcessoAcompanhamento">
+          <End Type="ObservatorioModel.Processo" Role="Processo" Multiplicity="1" />
+          <End Type="ObservatorioModel.Acompanhamento" Role="Acompanhamento" Multiplicity="*" />
+        </Association>
+        <Association Name="AcompanhamentoEstado">
+          <End Type="ObservatorioModel.Acompanhamento" Role="Acompanhamento" Multiplicity="*" />
+          <End Type="ObservatorioModel.Estado" Role="Estado" Multiplicity="1" />
+        </Association>
+        <Association Name="AcompanhamentoAcompanhamento">
+          <End Type="ObservatorioModel.Acompanhamento" Role="Acompanhamento" Multiplicity="1" />
+          <End Type="ObservatorioModel.Acompanhamento" Role="Acompanhamento1" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ObservatorioModelStoreContainer" CdmEntityContainer="ObservatorioEntities" />
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ObservatorioModelStoreContainer" CdmEntityContainer="ObservatorioEntities">
+    <EntitySetMapping Name="Detentos">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Detento)">
+        <MappingFragment StoreEntitySet="Detentos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Acompanhamentos">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Acompanhamento)">
+        <MappingFragment StoreEntitySet="Acompanhamentos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+          <ScalarProperty Name="DataFim" ColumnName="DataFim" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estados">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Estado)">
+        <MappingFragment StoreEntitySet="Estados">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Espera" ColumnName="Espera" />
+          <ScalarProperty Name="Pergunta" ColumnName="Pergunta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Respostas">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Resposta)">
+        <MappingFragment StoreEntitySet="Respostas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Processos">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Processo)">
+        <MappingFragment StoreEntitySet="Processos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Usuario)">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="EstadoResposta" TypeName="ObservatorioModel.EstadoResposta" StoreEntitySet="Respostas">
+      <EndProperty Name="Estado">
+        <ScalarProperty Name="Id" ColumnName="Estado_Id" />
+      </EndProperty>
+      <EndProperty Name="Resposta">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RespostaEstado" TypeName="ObservatorioModel.RespostaEstado" StoreEntitySet="Respostas">
+      <EndProperty Name="Estado">
+        <ScalarProperty Name="Id" ColumnName="EstadoDestino_Id" />
+      </EndProperty>
+      <EndProperty Name="Resposta">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DetentoProcesso" TypeName="ObservatorioModel.DetentoProcesso" StoreEntitySet="Processos">
+      <EndProperty Name="Detento">
+        <ScalarProperty Name="Id" ColumnName="Detento_Id" />
+      </EndProperty>
+      <EndProperty Name="Processo">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProcessoAcompanhamento" TypeName="ObservatorioModel.ProcessoAcompanhamento" StoreEntitySet="Acompanhamentos">
+      <EndProperty Name="Processo">
+        <ScalarProperty Name="Id" ColumnName="Processo_Id" />
+      </EndProperty>
+      <EndProperty Name="Acompanhamento">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AcompanhamentoEstado" TypeName="ObservatorioModel.AcompanhamentoEstado" StoreEntitySet="Acompanhamentos">
+      <EndProperty Name="Estado">
+        <ScalarProperty Name="Id" ColumnName="Estado_Id" />
+      </EndProperty>
+      <EndProperty Name="Acompanhamento">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AcompanhamentoAcompanhamento" TypeName="ObservatorioModel.AcompanhamentoAcompanhamento" StoreEntitySet="Acompanhamentos">
+      <EndProperty Name="Acompanhamento">
+        <ScalarProperty Name="Id" ColumnName="AcompanhamentoOrigem_Id" />
+      </EndProperty>
+      <EndProperty Name="Acompanhamento1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -33,7 +406,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

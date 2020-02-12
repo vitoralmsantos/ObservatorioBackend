@@ -25,5 +25,11 @@ namespace ObservatorioBack.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Detento> Detentos { get; set; }
+        public virtual DbSet<Acompanhamento> Acompanhamentos { get; set; }
+        public virtual DbSet<Estado> Estados { get; set; }
+        public virtual DbSet<Resposta> Respostas { get; set; }
+        public virtual DbSet<Processo> Processos { get; set; }
+        public virtual DbSet<Usuario> Usuarios { get; set; }
     }
 }
