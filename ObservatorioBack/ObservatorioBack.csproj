@@ -143,6 +143,7 @@
     <Compile Include="Models\Processo.cs">
       <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProcessoExt.cs" />
     <Compile Include="Models\Resposta.cs">
       <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
