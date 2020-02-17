@@ -7,6 +7,11 @@ namespace ObservatorioBack.Models
 {
     public partial class Detento
     {
+        /// <summary>
+        /// Consulta um detento pelo seu Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static Detento Consultar(int id)
         {
             Detento detento = null;
@@ -25,6 +30,10 @@ namespace ObservatorioBack.Models
             return detento;
         }
 
+        /// <summary>
+        /// Lista todos os detentos.
+        /// </summary>
+        /// <returns></returns>
         public static List<Detento> Listar()
         {
             List<Detento> detentos = null;
@@ -36,6 +45,10 @@ namespace ObservatorioBack.Models
             return detentos;
         }
 
+        /// <summary>
+        /// Insere um novo detento.
+        /// </summary>
+        /// <param name="nome"></param>
         public static void Inserir(string nome)
         {
             using (ObservatorioEntities context = new ObservatorioEntities())
