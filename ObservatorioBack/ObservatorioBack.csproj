@@ -124,6 +124,7 @@
     <Compile Include="Models\Estado.cs">
       <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NegocioException.cs" />
     <Compile Include="Models\ObservatorioModelo.Context1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
