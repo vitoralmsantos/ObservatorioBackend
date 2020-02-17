@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/12/2020 15:31:47
+-- Date Created: 02/17/2020 15:24:18
 -- Generated from EDMX file: D:\Dropbox\Dropbox\DESI\Projetos\Observatorio\ObservatorioBackend\ObservatorioBack\Models\ObservatorioModelo.edmx
 -- --------------------------------------------------
 
@@ -113,7 +113,8 @@ GO
 -- Creating table 'Usuarios'
 CREATE TABLE [dbo].[Usuarios] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Nome] nvarchar(max)  NOT NULL
+    [Nome] nvarchar(max)  NOT NULL,
+    [Email] nvarchar(max)  NOT NULL
 );
 GO
 
