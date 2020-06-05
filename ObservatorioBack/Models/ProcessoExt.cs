@@ -14,8 +14,8 @@ namespace ObservatorioBack.Models
             using (ObservatorioEntities context = new ObservatorioEntities())
             {
                 var processo_ = from Processo p in context.Processos
-                               where p.Id == id
-                               select p;
+                                where p.Id == id
+                                select p;
 
                 if (processo_.Count() > 0)
                 {
@@ -55,7 +55,7 @@ namespace ObservatorioBack.Models
             {
                 var processo_ = from Processo p in context.Processos
                                 where p.Id == id
-                               select p;
+                                select p;
 
                 if (processo_.Count() > 0)
                 {
@@ -79,7 +79,7 @@ namespace ObservatorioBack.Models
 
                 var processo_ = from Processo p in context.Processos
                                 where p.Id == id
-                               select p;
+                                select p;
 
                 if (processo_.Count() > 0)
                 {
