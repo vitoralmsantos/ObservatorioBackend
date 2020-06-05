@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/17/2020 15:24:18
+-- Date Created: 06/05/2020 11:24:38
 -- Generated from EDMX file: D:\Dropbox\Dropbox\DESI\Projetos\Observatorio\ObservatorioBackend\ObservatorioBack\Models\ObservatorioModelo.edmx
 -- --------------------------------------------------
 
@@ -66,7 +66,14 @@ GO
 -- Creating table 'Detentos'
 CREATE TABLE [dbo].[Detentos] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Nome] nvarchar(max)  NOT NULL
+    [Nome] nvarchar(max)  NOT NULL,
+    [Genitor] nvarchar(max)  NOT NULL,
+    [Genitora] nvarchar(max)  NOT NULL,
+    [RG] nvarchar(max)  NOT NULL,
+    [CPF] nvarchar(max)  NOT NULL,
+    [QtdeFilhos] int  NOT NULL,
+    [FilhoMenor] bit  NOT NULL,
+    [Anotacoes] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -106,7 +113,9 @@ CREATE TABLE [dbo].[Processos] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Numero] nvarchar(max)  NOT NULL,
     [DataInicio] datetime  NOT NULL,
-    [Detento_Id] int  NOT NULL
+    [Anotacoes] nvarchar(max)  NOT NULL,
+    [Detento_Id] int  NOT NULL,
+    [Juizo_Id] int  NOT NULL
 );
 GO
 
@@ -115,6 +124,22 @@ CREATE TABLE [dbo].[Usuarios] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nome] nvarchar(max)  NOT NULL,
     [Email] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Juizos'
+CREATE TABLE [dbo].[Juizos] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Nome] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Custos'
+CREATE TABLE [dbo].[Custos] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DataInicial] datetime  NOT NULL,
+    [DataFinal] datetime  NOT NULL,
+    [CustoMensal] decimal(18,0)  NOT NULL
 );
 GO
 
@@ -155,6 +180,18 @@ GO
 -- Creating primary key on [Id] in table 'Usuarios'
 ALTER TABLE [dbo].[Usuarios]
 ADD CONSTRAINT [PK_Usuarios]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Juizos'
+ALTER TABLE [dbo].[Juizos]
+ADD CONSTRAINT [PK_Juizos]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Custos'
+ALTER TABLE [dbo].[Custos]
+ADD CONSTRAINT [PK_Custos]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -250,6 +287,21 @@ GO
 CREATE INDEX [IX_FK_AcompanhamentoAcompanhamento]
 ON [dbo].[Acompanhamentos]
     ([AcompanhamentoOrigem_Id]);
+GO
+
+-- Creating foreign key on [Juizo_Id] in table 'Processos'
+ALTER TABLE [dbo].[Processos]
+ADD CONSTRAINT [FK_ProcessoJuizo]
+    FOREIGN KEY ([Juizo_Id])
+    REFERENCES [dbo].[Juizos]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProcessoJuizo'
+CREATE INDEX [IX_FK_ProcessoJuizo]
+ON [dbo].[Processos]
+    ([Juizo_Id]);
 GO
 
 -- --------------------------------------------------

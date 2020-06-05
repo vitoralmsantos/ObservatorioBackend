@@ -12,22 +12,18 @@ namespace ObservatorioBack.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Processo
+    public partial class Juizo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Processo()
+        public Juizo()
         {
-            this.Acompanhamentos = new HashSet<Acompanhamento>();
+            this.Processos = new HashSet<Processo>();
         }
     
         public int Id { get; set; }
-        public string Numero { get; set; }
-        public System.DateTime DataInicio { get; set; }
-        public string Anotacoes { get; set; }
+        public string Nome { get; set; }
     
-        public virtual Detento Detento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Acompanhamento> Acompanhamentos { get; set; }
-        public virtual Juizo Juizo { get; set; }
+        public virtual ICollection<Processo> Processos { get; set; }
     }
 }

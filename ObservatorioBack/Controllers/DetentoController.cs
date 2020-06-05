@@ -22,18 +22,21 @@ namespace ObservatorioBack.Controllers
         }
 
         // POST: api/Detento
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]TesteTO teste)
         {
+            return Ok("Oi " + teste.Nome + " " + teste.Num);
         }
 
         // PUT: api/Detento/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]TesteTO teste)
         {
+            return Ok("Oi " + id + " " + teste.Nome + " " + teste.Num);
         }
 
         // DELETE: api/Detento/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            return Ok("Oi " + id);
         }
     }
 }

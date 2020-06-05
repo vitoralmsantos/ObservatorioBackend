@@ -31,5 +31,7 @@ namespace ObservatorioBack.Models
         public virtual DbSet<Resposta> Respostas { get; set; }
         public virtual DbSet<Processo> Processos { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Juizo> Juizos { get; set; }
+        public virtual DbSet<Custo> Custos { get; set; }
     }
 }

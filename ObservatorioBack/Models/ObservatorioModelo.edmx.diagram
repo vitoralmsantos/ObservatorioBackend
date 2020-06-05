@@ -5,19 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="fc21994ca4fa4082973b3c81cb332866" Name="Diagram1" ZoomLevel="113" >
-        <EntityTypeShape EntityType="ObservatorioModel.Detento" Width="1.5" PointX="1.125" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservatorioModel.Detento" Width="1.5" PointX="1.125" PointY="0.5" />
         <EntityTypeShape EntityType="ObservatorioModel.Acompanhamento" Width="1.5" PointX="4.5" PointY="2.75" />
         <EntityTypeShape EntityType="ObservatorioModel.Estado" Width="1.5" PointX="7.125" PointY="0.5" />
         <EntityTypeShape EntityType="ObservatorioModel.Resposta" Width="1.5" PointX="7.25" PointY="3.5" />
         <AssociationConnector Association="ObservatorioModel.EstadoResposta" />
         <AssociationConnector Association="ObservatorioModel.RespostaEstado" />
-        <EntityTypeShape EntityType="ObservatorioModel.Processo" Width="1.5" PointX="1.125" PointY="3.25" />
+        <EntityTypeShape EntityType="ObservatorioModel.Processo" Width="1.5" PointX="1.25" PointY="3.875" />
         <AssociationConnector Association="ObservatorioModel.DetentoProcesso" />
         <AssociationConnector Association="ObservatorioModel.ProcessoAcompanhamento" />
         <AssociationConnector Association="ObservatorioModel.AcompanhamentoEstado" />
         <AssociationConnector Association="ObservatorioModel.AcompanhamentoAcompanhamento" ManuallyRouted="false" >
         </AssociationConnector>
         <EntityTypeShape EntityType="ObservatorioModel.Usuario" Width="1.5" PointX="4.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ObservatorioModel.Juizo" Width="1.5" PointX="1.25" PointY="6.75" />
+        <AssociationConnector Association="ObservatorioModel.ProcessoJuizo" />
+        <EntityTypeShape EntityType="ObservatorioModel.Custo" Width="1.5" PointX="4.625" PointY="6.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

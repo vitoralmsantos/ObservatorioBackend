@@ -111,10 +111,14 @@
     <Compile Include="Controllers\DetentoController.cs" />
     <Compile Include="Controllers\ProcessoController.cs" />
     <Compile Include="Controllers\RegistroController.cs" />
+    <Compile Include="Controllers\TesteTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Acompanhamento.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Custo.cs">
       <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Detento.cs">
@@ -122,6 +126,9 @@
     </Compile>
     <Compile Include="Models\DetentoExt.cs" />
     <Compile Include="Models\Estado.cs">
+      <DependentUpon>ObservatorioModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Juizo.cs">
       <DependentUpon>ObservatorioModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NegocioException.cs" />

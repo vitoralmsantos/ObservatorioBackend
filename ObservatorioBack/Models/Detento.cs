@@ -22,6 +22,13 @@ namespace ObservatorioBack.Models
     
         public int Id { get; set; }
         public string Nome { get; set; }
+        public string Genitor { get; set; }
+        public string Genitora { get; set; }
+        public string RG { get; set; }
+        public string CPF { get; set; }
+        public int QtdeFilhos { get; set; }
+        public bool PossuiMenor { get; set; }
+        public string Anotacoes { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Processo> Processos { get; set; }

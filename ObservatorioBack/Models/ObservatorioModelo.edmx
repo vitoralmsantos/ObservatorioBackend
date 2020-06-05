@@ -12,6 +12,8 @@
     <EntitySet Name="Respostas" EntityType="ObservatorioModel.Store.Respostas" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Processos" EntityType="ObservatorioModel.Store.Processos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Usuarios" EntityType="ObservatorioModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Juizos" EntityType="ObservatorioModel.Store.Juizos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Custos" EntityType="ObservatorioModel.Store.Custos" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="EstadoResposta" Association="ObservatorioModel.Store.EstadoResposta">
       <End Role="Estado" EntitySet="Estados" />
       <End Role="Resposta" EntitySet="Respostas" />
@@ -36,6 +38,10 @@
       <End Role="Acompanhamento" EntitySet="Acompanhamentos" />
       <End Role="Acompanhamento1" EntitySet="Acompanhamentos" />
     </AssociationSet>
+    <AssociationSet Name="ProcessoJuizo" Association="ObservatorioModel.Store.ProcessoJuizo">
+      <End Role="Processo" EntitySet="Processos" />
+      <End Role="Juizo" EntitySet="Juizos" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Detentos">
     <Key>
@@ -43,6 +49,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Genitor" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Genitora" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RG" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CPF" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="QtdeFilhos" Type="int" Nullable="false" />
+    <Property Name="FilhoMenor" Type="bit" Nullable="false" />
+    <Property Name="Anotacoes" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Acompanhamentos">
     <Key>
@@ -82,7 +95,9 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Numero" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DataInicio" Type="datetime" Nullable="false" />
+    <Property Name="Anotacoes" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Detento_Id" Type="int" Nullable="false" />
+    <Property Name="Juizo_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Usuarios">
     <Key>
@@ -91,6 +106,22 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Juizos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Custos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DataInicial" Type="datetime" Nullable="false" />
+    <Property Name="DataFinal" Type="datetime" Nullable="false" />
+    <Property Name="CustoMensal" Type="decimal" Nullable="false" />
   </EntityType>
   <Association Name="EstadoResposta">
     <End Role="Estado" Type="ObservatorioModel.Store.Estados" Multiplicity="1" />
@@ -164,6 +195,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ProcessoJuizo">
+    <End Role="Processo" Type="ObservatorioModel.Store.Processos" Multiplicity="*" />
+    <End Role="Juizo" Type="ObservatorioModel.Store.Juizos" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Juizo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Processo">
+        <PropertyRef Name="Juizo_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -199,6 +242,12 @@
             <End Role="Acompanhamento1" EntitySet="Acompanhamentos" />
           </AssociationSet>
           <EntitySet Name="Usuarios" EntityType="ObservatorioModel.Usuario" />
+          <EntitySet Name="Juizos" EntityType="ObservatorioModel.Juizo" />
+          <AssociationSet Name="ProcessoJuizo" Association="ObservatorioModel.ProcessoJuizo">
+            <End Role="Processo" EntitySet="Processos" />
+            <End Role="Juizo" EntitySet="Juizos" />
+          </AssociationSet>
+          <EntitySet Name="Custos" EntityType="ObservatorioModel.Custo" />
         </EntityContainer>
         <EntityType Name="Detento">
           <Key>
@@ -207,6 +256,13 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" Nullable="false" />
           <NavigationProperty Name="Processos" Relationship="ObservatorioModel.DetentoProcesso" FromRole="Detento" ToRole="Processo" />
+          <Property Name="Genitor" Type="String" Nullable="true" />
+          <Property Name="Genitora" Type="String" Nullable="false" />
+          <Property Name="RG" Type="String" Nullable="true" />
+          <Property Name="CPF" Type="String" Nullable="true" />
+          <Property Name="QtdeFilhos" Type="Int32" Nullable="false" />
+          <Property Name="PossuiMenor" Type="Boolean" Nullable="false" />
+          <Property Name="Anotacoes" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="Acompanhamento">
           <Key>
@@ -260,6 +316,8 @@
           <NavigationProperty Name="Acompanhamentos" Relationship="ObservatorioModel.ProcessoAcompanhamento" FromRole="Processo" ToRole="Acompanhamento" />
           <Property Name="Numero" Type="String" Nullable="false" />
           <Property Name="DataInicio" Type="DateTime" Nullable="false" />
+          <Property Name="Anotacoes" Type="String" Nullable="false" />
+          <NavigationProperty Name="Juizo" Relationship="ObservatorioModel.ProcessoJuizo" FromRole="Processo" ToRole="Juizo" />
         </EntityType>
         <Association Name="DetentoProcesso">
           <End Type="ObservatorioModel.Detento" Role="Detento" Multiplicity="1" />
@@ -285,6 +343,27 @@
           <Property Name="Nome" Type="String" Nullable="false" />
           <Property Name="Email" Type="String" Nullable="false" />
         </EntityType>
+        <EntityType Name="Juizo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <NavigationProperty Name="Processos" Relationship="ObservatorioModel.ProcessoJuizo" FromRole="Juizo" ToRole="Processo" />
+        </EntityType>
+        <Association Name="ProcessoJuizo">
+          <End Type="ObservatorioModel.Processo" Role="Processo" Multiplicity="*" />
+          <End Type="ObservatorioModel.Juizo" Role="Juizo" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Custo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataInicial" Type="DateTime" Nullable="false" />
+          <Property Name="DataFinal" Type="DateTime" Nullable="false" />
+          <Property Name="CustoMensal" Type="Decimal" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -296,6 +375,13 @@
         <MappingFragment StoreEntitySet="Detentos">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Genitor" ColumnName="Genitor" />
+          <ScalarProperty Name="Genitora" ColumnName="Genitora" />
+          <ScalarProperty Name="RG" ColumnName="RG" />
+          <ScalarProperty Name="CPF" ColumnName="CPF" />
+          <ScalarProperty Name="QtdeFilhos" ColumnName="QtdeFilhos" />
+          <ScalarProperty Name="PossuiMenor" ColumnName="FilhoMenor" />
+          <ScalarProperty Name="Anotacoes" ColumnName="Anotacoes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -334,6 +420,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Numero" ColumnName="Numero" />
           <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+          <ScalarProperty Name="Anotacoes" ColumnName="Anotacoes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -343,6 +430,24 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
           <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Juizos">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Juizo)">
+        <MappingFragment StoreEntitySet="Juizos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Custos">
+      <EntityTypeMapping TypeName="IsTypeOf(ObservatorioModel.Custo)">
+        <MappingFragment StoreEntitySet="Custos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DataInicial" ColumnName="DataInicial" />
+          <ScalarProperty Name="DataFinal" ColumnName="DataFinal" />
+          <ScalarProperty Name="CustoMensal" ColumnName="CustoMensal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -391,6 +496,14 @@
         <ScalarProperty Name="Id" ColumnName="AcompanhamentoOrigem_Id" />
       </EndProperty>
       <EndProperty Name="Acompanhamento1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProcessoJuizo" TypeName="ObservatorioModel.ProcessoJuizo" StoreEntitySet="Processos">
+      <EndProperty Name="Juizo">
+        <ScalarProperty Name="Id" ColumnName="Juizo_Id" />
+      </EndProperty>
+      <EndProperty Name="Processo">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
